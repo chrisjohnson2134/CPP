@@ -69,7 +69,7 @@ void threadRipper(float* mat_a,float* mat_b,float* mat_c,int N,int cores)
   pass.N = N;
   
   int num_cores = cores;
-  //cout<<cores<<endl;
+  cout<<cores<<endl;
   pthread_t threads[num_cores];
   
   for(int i=0;i<num_cores;i++)
@@ -87,6 +87,7 @@ int main(int argc,char *argv[])
 {
   int i,j;
   int N = atoi(argv[2]);
+  int cores = atoi(argv[3]);
   srand(time(NULL));
   struct arg_struct* pass = (struct arg_struct*)malloc(sizeof(struct arg_struct));
   pass->mat_a = (float*)malloc(N*N*sizeof(float));
@@ -106,7 +107,7 @@ int main(int argc,char *argv[])
     }
 
   if(strcmp(argv[1],"m")==0)
-    threadRipper(pass->mat_a,pass->mat_b,pass->mat_c,N,4);
+    threadRipper(pass->mat_a,pass->mat_b,pass->mat_c,N,cores);
   else if(strcmp(argv[1],"s")==0)
     {
       for(int i = 0; i < N; i++)
