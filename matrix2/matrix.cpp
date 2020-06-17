@@ -83,6 +83,11 @@ void threadRipper(float* mat_a,float* mat_b,float* mat_c,int N,int cores)
     }
 }
 
+
+//parameter guide
+//1 -> m - multi core , S - single core
+//2 -> size matrix
+//3 -> number of cores
 int main(int argc,char *argv[])
 {
   int i,j;
