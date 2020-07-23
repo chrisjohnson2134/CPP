@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <map>
 #include <pthread.h>
+#include <fstream>
 using namespace std;
 
 // struct Point{
@@ -14,6 +16,7 @@ struct Point
 }; 
 
 struct Line{
+  int id;
   Point left_point;
   Point right_point;
 };
@@ -23,11 +26,12 @@ struct linePair{
   Line l2;
 };
 
-Line makeLine(int x1,int y1,int x2,int y2);
+Line makeLine(int id,int x1,int y1,int x2,int y2);
 Point makePoint(int x,int y);
 void printPoint(Point passPoint);
 void printLine(Line passLine);
 bool doIntersect(Point p1, Point q1, Point p2, Point q2); 
+vector<string> split(const string& str, const string& delim);
 
 int main()
 {
@@ -35,30 +39,59 @@ int main()
   //temporarly using vector
   std::vector<Line> myvector;
   //struct arg_struct pass;
+  int lineNumber = 0;
 
-  myvector.push_back(makeLine(0,0,4,4));
-  myvector.push_back(makeLine(0,4,4,0));
-  myvector.push_back(makeLine(0,2,2,0));
-  myvector.push_back(makeLine(3,0,5,2));
+  string line;
+  ifstream myfile ("test/test.txt");
+  vector<string> tempSplit;
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line) )
+    {
+      tempSplit = split(line,",");
+      // cout<<tempSplit.at(0)<<endl;
+      // myvector.push_back(makeLine(lineNumber,
+      // stod(tempSplit.at(0)), stod(tempSplit.at(1)) ,
+      // stod(tempSplit.at(2)), stod(tempSplit.at(3)) ));
+      lineNumber++;
+    }
+    myfile.close();
+  }
+
+  // myvector.push_back(makeLine(0,0,2,1,0));
+  // myvector.push_back(makeLine(1,0,0,4,4));
+  // myvector.push_back(makeLine(2,0,4,3,0));
+  // myvector.push_back(makeLine(3,0,1,3,4));
+
+  string temp;
+  map<string,int> mymap;
 
   int index = 0;
-  for(int i = 0; i < 4;i++)
+  for(int i = 0; i < myvector.size();i++)
   {
-    for(int j = 0; j < 4;j++)
+    for(int j = 0; j < myvector.size();j++)
     {
        if(i != j)
        {
          if(doIntersect(myvector.at(i).left_point,myvector.at(i).right_point,
              myvector.at(j).left_point,myvector.at(j).right_point))
              {
-               printLine(myvector.at(i));printLine(myvector.at(j));
-               printf("\n");
+               if(myvector.at(i).id < myvector.at(j).id)
+                temp = to_string(myvector.at(i).id) + ":"+ to_string(myvector.at(j).id);
+               else
+                temp = to_string(myvector.at(j).id) + ":"+ to_string(myvector.at(i).id) ;
+
+                mymap.insert(pair<string,int>(temp,0));
+                 //cout<< temp << endl;
              }
        }
     }
   }
     
-
+  for(auto it = mymap.cbegin();it != mymap.cend();++it)
+  {
+    cout<<it->first<<endl;
+  }
   
 
   // printPoint(lineIntersection(myvector.at(4),myvector.at(5)));
@@ -90,7 +123,7 @@ Point makePoint(double x,double y)
   return{x,y};
 }    
 
-Line makeLine(int x1,int y1,int x2,int y2)
+Line makeLine(int id,int x1,int y1,int x2,int y2)
 {
   Point left_point;
   Point right_point;
@@ -105,7 +138,7 @@ Line makeLine(int x1,int y1,int x2,int y2)
     right_point.x = x1;
     right_point.y = y1;
   }
-  return {left_point,right_point};
+  return {id,left_point,right_point};
 }
 
 void printPoint(Point passPoint)
@@ -181,4 +214,20 @@ bool doIntersect(Point p1, Point q1, Point p2, Point q2)
   
     return false; // Doesn't fall in any of the above cases 
 } 
+
+vector<string> split(const string& str, const string& delim)
+{
+    vector<string> tokens;
+    size_t prev = 0, pos = 0;
+    do
+    {
+        pos = str.find(delim, prev);
+        if (pos == string::npos) pos = str.length();
+        string token = str.substr(prev, pos-prev);
+        if (!token.empty()) tokens.push_back(token);
+        prev = pos + delim.length();
+    }
+    while (pos < str.length() && prev < str.length());
+    return tokens;
+}
 
