@@ -5,6 +5,10 @@
 #include <fstream>
 using namespace std;
 
+//plot 'test/testSmall.csv' using 1:2:($3-$1):($4-$2) with vectors nohead, "test/points.csv" with points
+
+
+
 // struct Point{
 //   double x;
 //   double y;
@@ -49,10 +53,10 @@ int main()
     while ( getline (myfile,line) )
     {
       tempSplit = split(line,",");
-      // cout<<tempSplit.at(0)<<endl;
-      // myvector.push_back(makeLine(lineNumber,
-      // stod(tempSplit.at(0)), stod(tempSplit.at(1)) ,
-      // stod(tempSplit.at(2)), stod(tempSplit.at(3)) ));
+       //cout<<tempSplit.at(0)<<endl;
+       myvector.push_back(makeLine(lineNumber,
+       stod(tempSplit.at(0)), stod(tempSplit.at(1)) ,
+       stod(tempSplit.at(2)), stod(tempSplit.at(3)) ));
       lineNumber++;
     }
     myfile.close();
@@ -88,11 +92,13 @@ int main()
     }
   }
     
-  for(auto it = mymap.cbegin();it != mymap.cend();++it)
-  {
-    cout<<it->first<<endl;
-  }
-  
+    int i = 0;
+   for(auto it = mymap.cbegin();it != mymap.cend();++it)
+   {
+     i++;
+     //cout<<it->first<<endl;
+   }
+  cout<<i;
 
   // printPoint(lineIntersection(myvector.at(4),myvector.at(5)));
 
