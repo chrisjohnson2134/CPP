@@ -7,6 +7,7 @@ using namespace std;
 
 //set datafile separator ","
 //plot 'test/testSmall.csv' using 1:2:($3-$1):($4-$2) with vectors nohead, "test/points.csv" pt 7 ps 2
+//plot 'test/triangles.csv' using 1:2:($3-$1):($4-$2) with vectors nohead, "test/points.csv" pt 7 ps 2
 
 
 // struct Point{
@@ -50,7 +51,7 @@ int main()
   int lineNumber = 0;
 
   string line;
-  string path = "test/testSP.csv";
+  string path = "test/triangles.csv";
   ifstream myfile(path);
   cout<<path;
   ofstream omyfile;
