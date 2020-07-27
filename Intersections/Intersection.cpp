@@ -55,6 +55,8 @@ int main()
   ifstream myfile(path);
   cout<<path;
   ofstream omyfile;
+  omyfile.open("test/points.csv",ofstream::out | ofstream::trunc);
+  omyfile.close();
   vector<string> tempSplit;
   if (myfile.is_open())
   {
@@ -69,7 +71,6 @@ int main()
     }
     myfile.close();
   }
-
   // myvector.push_back(makeLine(0,0,2,1,0));
   // myvector.push_back(makeLine(1,0,0,4,4));
   // myvector.push_back(makeLine(2,0,4,3,0));
@@ -80,12 +81,13 @@ int main()
   double x, y;
 
   int index = 0;
+  int counter  = 0;
   for (int i = 0; i < myvector.size(); i++)
   {
     for (int j = 0; j < myvector.size(); j++)
     {
       if (i != j)
-      {
+      {counter++;
         //  if(doIntersect(myvector.at(i).left_point,myvector.at(i).right_point,
         //      myvector.at(j).left_point,myvector.at(j).right_point))
         //      {
@@ -110,6 +112,8 @@ int main()
           // cout << "temp made" << endl;
           mymap.insert(pair<string, int>(temp, 0));
 
+          
+
           // cout << "appended to file" << endl;
           omyfile.open("test/points.csv", ios_base::app);
           omyfile << to_string(x)<< "," << to_string(y) << "\n";
@@ -119,12 +123,12 @@ int main()
       }
     }
   }
-
+  cout<<"\n"<<counter<<"\n";
   int i = 0;
   for (auto it = mymap.cbegin(); it != mymap.cend(); ++it)
   {
     i++;
-    cout<<it->first<<endl;
+    //cout<<it->first<<endl;
   }
   cout << i;
 
