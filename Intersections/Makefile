@@ -1,2 +1,2 @@
 all:
-	g++ Intersection.cpp -pthread -std=c++11
+	g++ main.cpp -pthread -std=c++11
