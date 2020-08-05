@@ -12,7 +12,7 @@ vector<string> split(const string &str, const string &delim);
 
 int main(){
   
-  int numCores = 2;
+  int numCores = 8;
   //temporarly using vector
 
   //struct arg_struct pass;
@@ -50,7 +50,7 @@ int main(){
 
   int i = 0;
 
-  i = runner(localVector,"test/points.csv",4);
+  i = runner(localVector,"test/points.csv",numCores);
 
   cout << "Number of Intersections Found : " << i << "\n";
 }
