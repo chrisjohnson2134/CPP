@@ -17,7 +17,7 @@ int main()
     omyfile.open(path,ofstream::out | ofstream::trunc);
     omyfile.close();
     omyfile.open(path, ios_base::app);
-    for(int i = 0; i < 30000; i++)
+    for(int i = 0; i < 5000; i++)
     {
         omyfile << generateTriangle(i);
     }
