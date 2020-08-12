@@ -93,9 +93,15 @@ void runner(Line *myvector,int size,linePair* pairs,int* counter,int* mutex)//,i
 
     i = (blockIdx.x *1024) + threadIdx.x;
     //atomicAdd(&counter, 1);
-    if(i == 15000)
-
-      printf("thread : %i\n",i );
+    if(i >= size)
+    {
+      if(i == 15001)
+        printf("thread : %i\n",i );
+      else
+      return;
+    }
+        
+      
     for (int j = 0; j < size; j++)
     {
       // if(j == 10)
