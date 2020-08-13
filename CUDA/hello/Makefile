@@ -1,2 +1,2 @@
 default:
-	g++ hello.cpp
+	nvcc hello.cu
