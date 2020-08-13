@@ -1,50 +1,76 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-
+#include <string.h>
 #include <stdio.h>
+
+/*
+ * C / CUDA Implementation BST.
+ * Modified to discard any duplicate value.
+*/
+
+struct pair{
+    int a;
+    int b;
+
+    __host__ __device__ 
+    friend bool operator<= (const pair& l,const pair& r)
+    {return (l.a + l.b) <= (r.a + r.b);}
+
+    __host__ __device__ 
+    friend bool operator>= (const pair& l,const pair& r)
+    {return (l.a + l.b) >= (r.a + r.b);}
+
+    __host__ __device__ 
+    friend bool operator !=(const pair& l,const pair& r)
+    {return !((l.a == r.a) && (l.b == r.b));}
+
+};
+
 
 struct node 
 { 
-    int key; 
+    pair key; 
     struct node *left, *right; 
 }; 
-   
-// A utility function to create a new BST node 
+
 __host__ __device__
-struct node *newNode(int item) 
+pair makePair(int l1,int l2)
+{
+  return {l1,l2};
+};
+
+__host__ __device__
+struct node *newNode(pair pass) 
 { 
     struct node *temp =  (struct node *)malloc(sizeof(struct node)); 
-    temp->key = item; 
+    temp->key = pass;
     temp->left = temp->right = NULL; 
     return temp; 
 } 
+
+
    
-// A utility function to do inorder traversal of BST 
 __host__ __device__ 
 void inorder(struct node *root) 
 { 
     if (root != NULL) 
     { 
         inorder(root->left); 
-        printf("%d \n", root->key); 
+        printf("%i %i\n", root->key.a,root->key.b); 
         inorder(root->right); 
     } 
 } 
    
-/* A utility function to insert a new node with given key in BST */
 __host__ __device__ 
-struct node* insert(struct node* node, int key) 
+struct node* insert(struct node* node, pair key) 
 { 
-    /* If the tree is empty, return a new node */
     if (node == NULL) return newNode(key); 
-  
-    /* Otherwise, recur down the tree */
-    if (key < node->key) 
+    
+    if(key <= node->key && node->key != key)
         node->left  = insert(node->left, key); 
-    else if (key > node->key) 
+    else if(key >= node->key && node->key != key)
         node->right = insert(node->right, key);    
-  
-    /* return the (unchanged) node pointer */
+        
     return node; 
 } 
 
@@ -53,13 +79,16 @@ __global__
 void mainDevice() 
 { 
 	struct node *root = NULL; 
-    root = insert(root, 50); 
-    insert(root, 30); 
-    insert(root, 20); 
-    insert(root, 40); 
-    insert(root, 70); 
-    insert(root, 60); 
-    insert(root, 80); 
+    root = insert(root, makePair(1,1)); 
+    insert(root, makePair(1,2)); 
+    insert(root, makePair(1,2)); 
+    insert(root, makePair(1,3)); 
+    insert(root, makePair(2,1)); 
+    insert(root, makePair(2,2)); 
+    insert(root, makePair(2,2)); 
+    insert(root, makePair(2,3)); 
+    insert(root, makePair(3,1)); 
+    insert(root, makePair(3,2)); 
    
     // print inoder traversal of the BST 
     inorder(root); 
