@@ -1,0 +1,2 @@
+defualt:
+	nvcc bst.cu
