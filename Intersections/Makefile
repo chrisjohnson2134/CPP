@@ -1,5 +1,5 @@
 all:
-	nvcc main.cu 
+	g++ main.cpp -pthread -std=c++11
 
 cuda:
 	nvcc main.cu

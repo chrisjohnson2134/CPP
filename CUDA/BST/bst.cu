@@ -1,5 +1,6 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
+#include "lines.cu"
 #include <string.h>
 #include <stdio.h>
 
@@ -7,6 +8,7 @@
  * C / CUDA Implementation BST.
  * Modified to discard any duplicate value.
 */
+
 
 struct pair{
     int a;

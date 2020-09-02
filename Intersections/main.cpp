@@ -21,8 +21,8 @@ int main(){
   vector<Line> localVector;
 
   string line;
-  //string path = "test/testSmall.csv";
-  string path = "test/triangles.csv";
+  string path = "test/testSmall.csv";
+  // string path = "test/triangles.csv";
   ifstream myfile(path);
   cout << "Lines File Path: " << path << "\n";
   ofstream omyfile;

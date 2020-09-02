@@ -70,7 +70,7 @@ int runner(std::vector<Line> &pVector, std::string outputPath, int cores)
   }
 
   int i = 0;
-  std::cout << "mymap size : " << sizeof(mymap) << "\n";
+  //std::cout << "mymap size : " << sizeof(mymap) << "\n";
   for (auto it = mymap.cbegin(); it != mymap.cend(); ++it)
   {
     i++;
